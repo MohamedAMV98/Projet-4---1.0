@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_place"
+        android:title="Assembly Room"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/salleA"
+                android:title="Room A">
+            </item>
+
+            <item
+                android:id="@+id/salleB"
+                android:title="Room B"></item>
+
+            <item
+                android:id="@+id/salleC"
+                android:title="Room C"></item>
+
+            <item
+                android:id="@+id/salleD"
+                android:title="Room D"></item>
+
+            <item
+                android:id="@+id/salleE"
+                android:title="Room E"></item>
+
+            <item
+                android:id="@+id/salleF"
+                android:title="Room F"></item>
+
+            <item
+                android:id="@+id/salleG"
+                android:title="Room G"></item>
+
+
+            <item
+                android:id="@+id/salleH"
+                android:title="Room H"></item>
+
+            <item
+                android:id="@+id/salleI"
+                android:title="Room I"></item>
+
+            <item
+                android:id="@+id/salleJ"
+                android:title="Room J"></item>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/item_date"
+        android:title="Assembly Date"
+        app:showAsAction="never"></item>
+
+    <item
+        android:id="@+id/item_one"
+        android:title="No Filter"
+        app:showAsAction="never"></item>
+</menu>
