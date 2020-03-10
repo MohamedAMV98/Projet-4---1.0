@@ -29,12 +29,19 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 import static android.content.Intent.getIntent;
 
-public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionViewHolder>{
+public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionViewHolder> implements DeleteDialogFragment.deleteMeetingInterface{
     private List<Meeting> theList;
     public Activity mContext;
     DeleteDialogFragment mDialog;
     public int thePosition;
     public final String POSITION_KEY = "THE KEY";
+
+    @Override
+    public void deleteMeeting(Meeting meeting) {
+        theList.remove(meeting);
+        notifyItemRemoved(theList.indexOf(meeting));
+        notifyItemRangeChanged(theList.indexOf(meeting), theList.size());
+    }
 
     public class reunionViewHolder extends RecyclerView.ViewHolder {
         public TextView mPlace;
@@ -78,9 +85,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionV
             @Override
             public void onClick(View v) {
                 openDialog();
-                theList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, theList.size());
             }
         });
     }
@@ -95,6 +99,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionV
     public void openDialog(){
         DeleteDialogFragment dialog = DeleteDialogFragment.newInstance();
         dialog.show(((MainActivity)mContext).getSupportFragmentManager(), "this");
+        dialog.setInterface(this, theList.get(thePosition));
     }
 }
 

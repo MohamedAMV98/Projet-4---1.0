@@ -20,6 +20,8 @@ import java.util.List;
 public class DeleteDialogFragment extends AppCompatDialogFragment {
 
     MeetingListManagement mApiService;
+    public deleteMeetingInterface ourInterface;
+    public Meeting ourMeeting;
 
     @NonNull
     @Override
@@ -36,13 +38,22 @@ public class DeleteDialogFragment extends AppCompatDialogFragment {
                 .setPositiveButton("YES, I DO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        ourInterface.deleteMeeting(ourMeeting);
                     }
                 });
         return builder.create();
     }
 
+    public interface deleteMeetingInterface{
+        void deleteMeeting(Meeting meeting);
+    }
+
     public static DeleteDialogFragment newInstance() {
         return new DeleteDialogFragment();
+    }
+
+    public void setInterface(deleteMeetingInterface theInterface, Meeting theMeeting){
+        ourInterface = theInterface;
+        ourMeeting = theMeeting;
     }
 }

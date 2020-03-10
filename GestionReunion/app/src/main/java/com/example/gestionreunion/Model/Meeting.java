@@ -6,16 +6,18 @@ import android.widget.TextView;
 public class Meeting {
     String mPlace;
     String mHour;
+    String mEndHour;
     String mSubject;
     String mParticipants;
     String mDate;
 
-    public Meeting(String place, String hour, String subject, String participants, String date) {
+    public Meeting(String place, String hour, String subject, String participants, String date, String endHour) {
         mPlace = place;
         mHour = hour;
         mSubject = subject;
         mParticipants = participants;
         mDate = date;
+        mEndHour = endHour;
     }
 
     public String getPlace() {
@@ -50,6 +52,10 @@ public class Meeting {
 
     public String getDate() {
         return mDate;
+    }
+
+    public String getEndHour() {
+        return mEndHour;
     }
 
     public void setDate(String date) {

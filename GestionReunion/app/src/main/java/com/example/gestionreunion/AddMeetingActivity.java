@@ -23,6 +23,7 @@ import android.widget.TimePicker;
 
 import com.example.gestionreunion.API.MeetingListManagement;
 import com.example.gestionreunion.DI.Injector;
+import com.example.gestionreunion.Fragment.AlertDialogMeetingHour;
 import com.example.gestionreunion.Fragment.DatePickerFragment;
 import com.example.gestionreunion.Fragment.TimePickerFragment;
 import com.example.gestionreunion.Model.Meeting;
@@ -49,7 +50,9 @@ import static android.graphics.Color.parseColor;
 public class AddMeetingActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, PopupMenu.OnMenuItemClickListener {
 
     private MeetingListManagement mApiService;
-    List<String> Participants = new ArrayList<>();
+    private String TAG = "lol";
+    private boolean bool;
+    List<Meeting> mListToCheckTime;
     EditText participantsText;
     EditText subjectText;
     Button mTimeButton;
@@ -160,28 +163,29 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String participants = participantsText.getText().toString().trim();
-                if(participants.isEmpty());
+                if(participants.isEmpty()){
                     mAddEmailButton.setEnabled(false);
                     mAddEmailButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorGrey));
+                    }
+                else
+                    addButton.setEnabled(true);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if((participantsText.getText().length() == 0) || (subjectText.getText().length()
-                    == 0) || (mTimeButton.getText().toString().contains("FROM")) || (mTime2Button.getText().toString().contains("TO"))
-                || (mDateButton.getText().toString().contains("MEETING DAY")) || (mRoomButton.getText().toString().contains("ASSEMBLY ROOM"))) {
+                if((subjectText.getText().length() == 0) || (mTimeButton.getText().toString().contains("FROM")) || (mTime2Button.getText().toString().contains("TO"))
+                        || (mDateButton.getText().toString().contains("MEETING DAY")) || (mRoomButton.getText().toString().contains("ASSEMBLY ROOM"))
+                || participantsBox.getText().toString().length() == 0) {
                     addButton.setEnabled(false);
                 } else {
-                    mAddEmailButton.setEnabled(false);
                     addButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorOrange));
-                    //addButton.setEnabled(true);
+                    addButton.setEnabled(true);
                 }
                 if(participantsText.getText().toString().contains("@") && participantsText.getText().toString()
                         .contains(".")) {
                     mAddEmailButton.setEnabled(true);
                     mAddEmailButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorOrange));
-                } else
-                    mAddEmailButton.setEnabled(false);
+                }
             }
         };
         mTimeButton.addTextChangedListener(mTextWatcher);
@@ -198,13 +202,21 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Meeting newMeeting = new Meeting(mRoomButton.getText().toString(),
-                        mTimeButton.getText().toString(),
-                        subjectText.getText().toString(),
-                        participantsText.getText().toString(), currentDate
-                        );
-                mApiService.addMeeting(newMeeting);
-                finish();
+                checkTimeSlot();
+                if(checkTimeSlot())
+                    openTimeAlertDialog();
+                else {
+                    Meeting newMeeting = new Meeting(mRoomButton.getText().toString(),
+                            mTimeButton.getText().toString(),
+                            subjectText.getText().toString(),
+                            participantsBox.getText().toString(), currentDate,
+                            mTime2Button.getText().toString()
+                    );
+                    mApiService.addMeeting(newMeeting);
+                    finish();
+                }
+                Log.d(TAG, "checkTimeSlot: meeting hour" + mApiService.getMeetingList().get(0).getHour());
+                Log.d(TAG, "checkTimeSlot: meeting hour button" + mTimeButton.getText().toString());
             }
         });
     }
@@ -232,12 +244,28 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
         mAddEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addButton.setEnabled(true);
                 String emailToDisplay = participantsText.getText().toString();
                 String emailInBox = participantsBox.getText().toString();
-                participantsBox.setText(emailToDisplay + ", " + emailInBox);
+                participantsBox.setText(emailToDisplay + "\r\n" + emailInBox);
                 participantsText.getText().clear();
             }
         });
+    }
+
+    public boolean checkTimeSlot(){
+        mListToCheckTime = mApiService.getMeetingList();
+        for (Meeting aMeeting : mListToCheckTime) {
+            if ((aMeeting.getEndHour().toLowerCase().equals(mTime2Button.getText().toString().toLowerCase())) &&
+                    aMeeting.getHour().toLowerCase().equals(mTimeButton.getText().toString().toLowerCase()))
+                bool = true;
+            else
+                bool = false;
+        }
+        return bool;
+    }
+
+    public void openTimeAlertDialog(){
+        AlertDialogMeetingHour timeDialog = new AlertDialogMeetingHour();
+        timeDialog.show(getSupportFragmentManager(), "this dialog");
     }
 }
