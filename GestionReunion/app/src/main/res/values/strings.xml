@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">GestionReunion</string>
+    <string name="add">ADD</string>
+    <string name="meeting_day">MEETING DAY</string>
+    <string name="todo">TODO</string>
+    <string name="enter_participant_email">Enter participant email</string>
+    <string name="participants">Participants</string>
+    <string name="meeting_subject">Meeting Subject</string>
+    <string name="assembly_room">ASSEMBLY ROOM</string>
+    <string name="meeting_time">MEETING TIME</string>
+    <string name="from">FROM</string>
+    <string name="to">TO</string>
 </resources>

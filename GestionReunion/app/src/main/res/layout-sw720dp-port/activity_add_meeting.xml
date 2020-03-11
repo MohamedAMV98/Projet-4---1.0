@@ -9,11 +9,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="570dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/custom_button"
+            android:text="@string/meeting_day"
+            android:textColor="#FFF"
+            android:textSize="40sp"
+            android:padding="10dp"
+            ></Button>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="75dp"
+            android:text="@string/meeting_time"
+            android:textSize="25sp"></TextView>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -22,56 +43,43 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/date_button"
-                android:layout_width="@dimen/day_width"
-                android:layout_height="@dimen/day_height"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/custom_button"
-                android:text="@string/meeting_day"
-                android:paddingHorizontal="4dp"
-                android:textColor="#FFF"
-                android:textSize="@dimen/day_text_size"
-                android:textStyle="bold"></Button>
-
-            <Button
                 android:id="@+id/time_button"
-                android:layout_width="@dimen/from_width"
-                android:layout_height="@dimen/from_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/from_text_size"
                 android:background="@drawable/custom_button"
                 android:text="@string/from"
-                android:textSize="@dimen/from_text_size"
+                android:textSize="30sp"
+                android:padding="12dp"
                 android:textColor="#FFF"></Button>
 
             <Button
                 android:id="@+id/time_button2"
-                android:layout_width="@dimen/to_width"
-                android:layout_height="@dimen/to_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/custom_button"
                 android:text="@string/to"
-                android:textSize="@dimen/to_text_size"
+                android:padding="10dp"
+                android:textSize="35sp"
                 android:textColor="#FFF"></Button>
-
-            <Button
-                android:id="@+id/assembly_room"
-                android:layout_width="@dimen/room_width"
-                android:layout_height="@dimen/room_height"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="25dp"
-                android:background="@drawable/custom_button"
-                android:onClick="showPopUpMenu"
-                android:text="@string/assembly_room"
-                android:textColor="#FFF"
-                android:paddingHorizontal="5dp"
-                android:textSize="@dimen/room_text_size"
-                android:textStyle="bold"></Button>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/assembly_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="75dp"
+            android:background="@drawable/custom_button"
+            android:onClick="showPopUpMenu"
+            android:text="@string/assembly_room"
+            android:textColor="#FFF"
+            android:textSize="35sp"></Button>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/subject_text"
@@ -79,36 +87,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="100dp"
             >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/subject_text2"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:ems="50"
-                android:textSize="@dimen/subject_size"
-                android:hint="@string/meeting_subject"></com.google.android.material.textfield.TextInputEditText>
+                android:layout_height="wrap_content"
+                android:hint="@string/meeting_subject"
+                android:textSize="40sp"></com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:gravity="center_horizontal"
+            android:text="@string/participants"
+            android:textSize="20sp"></TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/add_mail_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_black_24dp"
-                android:contentDescription="@string/todo"></ImageButton>
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_add_black_24dp"></ImageButton>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mail_entered"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/participant_height"
-                android:textSize="17sp"
-                android:hint="@string/enter_participant_email"></com.google.android.material.textfield.TextInputEditText>
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_participant_email"
+                android:textSize="20sp"></com.google.android.material.textfield.TextInputEditText>
+
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -123,22 +140,22 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp">
 
         <Button
             android:id="@+id/add_button"
-            android:layout_width="@dimen/add_width"
-            android:layout_height="@dimen/add_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/custom_button2"
             android:backgroundTint="#cccccc"
             android:clickable="true"
             android:enabled="false"
             android:text="@string/add"
             android:textColor="#FFFF"
-            android:textSize="@dimen/add_text_size"
-            android:textStyle="bold"
+            android:paddingHorizontal="20sp"
+            android:textSize="40dp"
             app:cornerRadius="20dp"
             android:focusable="true"></Button>
     </LinearLayout>

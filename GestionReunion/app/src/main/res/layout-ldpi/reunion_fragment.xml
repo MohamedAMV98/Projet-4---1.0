@@ -36,6 +36,7 @@
 
     <TextView
         android:id="@+id/meeting_hour"
+        android:layout_marginStart="25sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="14H00 - "
@@ -51,6 +52,7 @@
     <TextView
         android:id="@+id/meeting_subject"
         android:textColor="#000"
+        android:layout_marginStart="25sp"
         android:textSize="15sp"
         android:text="Peach"
         android:maxLines="1"
@@ -70,16 +72,15 @@
 
     <TextView
         android:id="@+id/meeting_participants"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="sssssssssssssssssssssssssssssss"
+        android:text="ssssssssssssssssssssssssssssssssssssssssssssssss"
         android:textColor="#000"
         app:layout_constraintTop_toBottomOf="@id/meeting_place"
-        app:layout_constraintStart_toEndOf="@id/circle"
-        app:layout_constraintEnd_toStartOf="@id/delete_button"></TextView>
+        app:layout_constraintStart_toEndOf="@id/circle"></TextView>
 
     <ImageButton
         android:id="@+id/delete_button"

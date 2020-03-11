@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="day_height">30dp</dimen>
+    <dimen name="day_width">60dp</dimen>
+    <dimen name="day_text_size">12sp</dimen>
+
+    <dimen name="room_height">35dp</dimen>
+    <dimen name="room_width">70dp</dimen>
+    <dimen name="room_text_size">12sp</dimen>
+
+    <dimen name="from_height">30dp</dimen>
+    <dimen name="from_width">55dp</dimen>
+    <dimen name="from_text_size">12sp</dimen>
+
+    <dimen name="to_height">30dp</dimen>
+    <dimen name="to_width">55dp</dimen>
+    <dimen name="to_text_size">12sp</dimen>
+
+    <dimen name="add_height">30dp</dimen>
+    <dimen name="add_width">60dp</dimen>
+    <dimen name="add_text_size">12sp</dimen>
+
+    <dimen name="participant_height">30dp</dimen>
+    <dimen name="participant_width">200dp</dimen>
+    <dimen name="participant_text_size">10sp</dimen>
+    <dimen name="participant_title_text_size">10sp</dimen>
+
+    <dimen name="subject_size">8sp</dimen>
+
+    <dimen name="meetingTime_text_size">7sp</dimen>
+
+
+
+</resources>
