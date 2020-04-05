@@ -202,8 +202,7 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkTimeSlot();
-                if(checkTimeSlot())
+                if(checkAvailabityByTimeAndRoom())
                     openTimeAlertDialog();
                 else {
                     Meeting newMeeting = new Meeting(mRoomButton.getText().toString(),
@@ -215,8 +214,6 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
                     mApiService.addMeeting(newMeeting);
                     finish();
                 }
-                Log.d(TAG, "checkTimeSlot: meeting hour" + mApiService.getMeetingList().get(0).getHour());
-                Log.d(TAG, "checkTimeSlot: meeting hour button" + mTimeButton.getText().toString());
             }
         });
     }
@@ -225,9 +222,9 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         if(isFromClick)
-            mTimeButton.setText(hourOfDay + "h" + minute);
+            mTimeButton.setText(String.format("%02d", hourOfDay) + "h" + String.format("%02d", minute));
         else
-            mTime2Button.setText(hourOfDay + "h" + minute);
+            mTime2Button.setText(String.format("%02d", hourOfDay) + "h" + String.format("%02d", minute));
     }
 
     @Override
@@ -252,12 +249,42 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
         });
     }
 
-    public boolean checkTimeSlot(){
+    public boolean checkAvailabityByTimeAndRoom(){
         mListToCheckTime = mApiService.getMeetingList();
         for (Meeting aMeeting : mListToCheckTime) {
-            if ((aMeeting.getEndHour().toLowerCase().equals(mTime2Button.getText().toString().toLowerCase())) &&
-                    aMeeting.getHour().toLowerCase().equals(mTimeButton.getText().toString().toLowerCase()))
+            // GET FOR EACH MEETING IN THE LIST THEIR TIME IN MINUTES
+            int MeetingHour = (Integer.parseInt(aMeeting.getHour().substring(0, 2))) * 60;
+            int MeetingMinutes = Integer.parseInt(aMeeting.getHour().substring(3, 5));
+            int finalMeetingMinutesBegin = MeetingHour + MeetingMinutes;
+
+            int MeetingHourEnd = (Integer.parseInt(aMeeting.getEndHour().substring(0, 2))) * 60;
+            int MeetingMinutesEnd = Integer.parseInt(aMeeting.getEndHour().substring(3, 5));
+            int finalMeetingMinutesEnd = MeetingHourEnd + MeetingMinutesEnd;
+
+
+            // GET CHOSEN TIME IN MINUTES
+            int chosenHourBegin = (Integer.parseInt(mTimeButton.getText().toString().substring(0, 2)) * 60);
+            int chosenMinutesBegin = (Integer.parseInt(mTimeButton.getText().toString().substring(3, 5)));
+            int finalChosenMeetingMinutesBegin = chosenHourBegin + chosenMinutesBegin;
+
+            int chosenHourEnd = (Integer.parseInt(mTime2Button.getText().toString().substring(0, 2)) * 60);
+            int chosenMinutesEnd = (Integer.parseInt(mTime2Button.getText().toString().substring(3, 5)));
+            int finalChosenMeetingMinutesEnd = chosenHourEnd + chosenMinutesEnd;
+
+
+            // GET CHOSEN ROOM & MEETING ROOM
+            String roomToCheck = aMeeting.getPlace();
+            String chosenRoom = mRoomButton.getText().toString();
+
+            // GET CHOSEN DATE & MEETING DATE
+            String dateToCheck = aMeeting.getDate();
+            String chosenDate = mDateButton.getText().toString();
+
+
+            if ((!(finalChosenMeetingMinutesBegin > finalMeetingMinutesEnd || finalChosenMeetingMinutesEnd < finalMeetingMinutesBegin))
+                    && chosenRoom.contains(roomToCheck) && chosenDate.contains(dateToCheck)) {
                 bool = true;
+            }
             else
                 bool = false;
         }
@@ -269,3 +296,7 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
         timeDialog.show(getSupportFragmentManager(), "this dialog");
     }
 }
+
+/*(finalChosenMeetingMinutesBegin > finalMeetingMinutesBegin && finalChosenMeetingMinutesBegin < finalMeetingMinutesEnd)
+        || (finalChosenMeetingMinutesEnd > finalMeetingMinutesBegin && finalChosenMeetingMinutesEnd < finalMeetingMinutesEnd)
+        || (finalChosenMeetingMinutesBegin < finalMeetingMinutesBegin && finalChosenMeetingMinutesEnd > finalMeetingMinutesEnd)*/

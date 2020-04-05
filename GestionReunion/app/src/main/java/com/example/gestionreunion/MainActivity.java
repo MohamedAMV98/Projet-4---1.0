@@ -130,9 +130,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void filterDate(String date){
+        filteredDateList.clear();
         for (Meeting meeting : mList){
             if(meeting.getDate().toLowerCase().contains(date.toLowerCase())) {
-                filteredDateList.clear();
                 filteredDateList.add(meeting);
             }
         }

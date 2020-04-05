@@ -9,5 +9,6 @@ public interface MeetingListManagement {
     List<Meeting> getMeetingList();
     void addMeeting(Meeting meeting);
     void deleteMeeting(Meeting meeting);
-
+    List<Meeting> filterByRoom(String room);
+    List<Meeting> filterByDate(String date);
 }

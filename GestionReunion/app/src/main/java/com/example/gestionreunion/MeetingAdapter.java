@@ -34,13 +34,11 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionV
     public Activity mContext;
     DeleteDialogFragment mDialog;
     public int thePosition;
-    public final String POSITION_KEY = "THE KEY";
 
     @Override
     public void deleteMeeting(Meeting meeting) {
         theList.remove(meeting);
-        notifyItemRemoved(theList.indexOf(meeting));
-        notifyItemRangeChanged(theList.indexOf(meeting), theList.size());
+        notifyDataSetChanged();
     }
 
     public class reunionViewHolder extends RecyclerView.ViewHolder {
@@ -73,10 +71,10 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionV
     }
 
     @Override
-    public void onBindViewHolder(reunionViewHolder holder, final int position) {
+    public void onBindViewHolder(final reunionViewHolder holder, int position) {
         mDialog = new DeleteDialogFragment();
         thePosition = position;
-        Meeting mMeeting = theList.get(position);
+        final Meeting mMeeting = theList.get(position);
         holder.mPlace.setText(mMeeting.getPlace());
         holder.mParticipants.setText(mMeeting.getParticipants());
         holder.mSubject.setText(mMeeting.getSubject());
@@ -84,7 +82,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionV
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialog();
+                openDialog(mMeeting);
             }
         });
     }
@@ -96,10 +94,10 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionV
      * Configure dialog
      */
 
-    public void openDialog(){
+    public void openDialog(Meeting mMeeting){
         DeleteDialogFragment dialog = DeleteDialogFragment.newInstance();
         dialog.show(((MainActivity)mContext).getSupportFragmentManager(), "this");
-        dialog.setInterface(this, theList.get(thePosition));
+        dialog.setInterface(this, mMeeting);
     }
 }
 
