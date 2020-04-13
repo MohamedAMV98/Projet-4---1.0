@@ -37,9 +37,11 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import java.sql.Time;
 import java.util.List;
@@ -72,8 +74,8 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ExampleInstrumentedTest {
-
     private MainActivity mMainActivity;
     private MeetingListManagement mApiService;
     List<Meeting> mMeetingList;
@@ -106,11 +108,11 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void addMeetingOpensAndWorks() {
+    public void A_addMeetingOpensAndWorks() {
         // DATE
         onView(withId(R.id.fab)).perform(click());
         onView(withId(R.id.date_button)).perform(click());
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 5, 20));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 7, 20));
         onView(withId(android.R.id.button1)).perform(click());
         // TIME
         onView(withId(R.id.time_button)).perform(click());
@@ -121,7 +123,7 @@ public class ExampleInstrumentedTest {
         onView(withId(android.R.id.button1)).perform(click());
         // ROOM
         onView(withId(R.id.assembly_room)).perform(click());
-        onView(withText("Room G")).perform(click());
+        onView(withText("Room E")).perform(click());
         // SUBJECT
         onView(allOf(withClassName(endsWith("TextInputEditText")), withHint(is("Meeting Subject")))).perform(replaceText("Approvisionnement"));
         // PARTICIPANTS
@@ -158,9 +160,9 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void filterByDateAndRoom() {
+    public void C_filterByDateAndRoom() {
         // BY DATE
-        addRandomMeeting();
+        //addRandomMeeting();
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Assembly Date")).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 5, 20));
@@ -190,11 +192,10 @@ public class ExampleInstrumentedTest {
 
 
     @Test
-    public void availabilityTest() {
-        //create2meetings();
+    public void B_availabilityTest() {
         addRandomMeeting();
         addRandomMeeting2();
-        assertTrue(mMeetingList.size() == 5);
+        assertTrue(mMeetingList.size() == 6);
         onView(withText("Alert")).check(matches(isDisplayed()));
     }
 
