@@ -84,7 +84,7 @@ public class ExampleInstrumentedTest {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule(MainActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         mMainActivity = mActivityTestRule.getActivity();
         assertThat(mMainActivity, notNullValue());
         mApiService = Injector.getApiService();
@@ -101,12 +101,12 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void meetingListIsDisplayed(){
+    public void meetingListIsDisplayed() {
         onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void addMeetingOpensAndWorks(){
+    public void addMeetingOpensAndWorks() {
         // DATE
         onView(withId(R.id.fab)).perform(click());
         onView(withId(R.id.date_button)).perform(click());
@@ -133,7 +133,7 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void deleteMeetingWorks(){
+    public void deleteMeetingWorks() {
         //onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         /*onView(withId(R.id.delete_button)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));*/
         ViewInteraction appCompatImageButton = onView(
@@ -158,7 +158,7 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void filterByDateAndRoom(){
+    public void filterByDateAndRoom() {
         // BY DATE
         addRandomMeeting();
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -178,7 +178,7 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void ResetFilter(){
+    public void ResetFilter() {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Assembly Room")).perform(click());
         onView(withText("Room A")).perform(click());
@@ -188,7 +188,36 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.recycler_view)).check(matches(hasMinimumChildCount(originalItemNumber)));
     }
 
-    public void addRandomMeeting(){
+
+    @Test
+    public void availabilityTest() {
+        //create2meetings();
+        addRandomMeeting();
+        addRandomMeeting2();
+        assertTrue(mMeetingList.size() == 5);
+        onView(withText("Alert")).check(matches(isDisplayed()));
+    }
+
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position) {
+
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
+    }
+
+    public void addRandomMeeting() {
         // DATE
         onView(withId(R.id.fab)).perform(click());
         onView(withId(R.id.date_button)).perform(click());
@@ -211,287 +240,26 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.add_button)).perform(click());
     }
 
-    @Test
-    public void availabilityTest(){
-        create2meetings();
-        assertTrue(mMeetingList.size() == 5);
-        onView(withText("Alert")).check(matches(isDisplayed()));
-    }
-
-    public void create2meetings() {
-        ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.fab),
-                        childAtPosition(
-                                allOf(withId(R.id.main_activity),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        floatingActionButton.perform(click());
-
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.date_button), withText("MEETING DAY"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.add_meeting_activity),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatButton.perform(click());
-
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                3)));
-        appCompatButton2.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.time_button), withText("FROM"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                0),
-                        isDisplayed()));
-        appCompatButton3.perform(click());
-
-        ViewInteraction appCompatButton4 = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                3)));
-        appCompatButton4.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton5 = onView(
-                allOf(withId(R.id.time_button2), withText("TO"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                1),
-                        isDisplayed()));
-        appCompatButton5.perform(click());
-
-        ViewInteraction appCompatButton6 = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                3)));
-        appCompatButton6.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton7 = onView(
-                allOf(withId(R.id.assembly_room), withText("ASSEMBLY ROOM"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.add_meeting_activity),
-                                        0),
-                                3),
-                        isDisplayed()));
-        appCompatButton7.perform(click());
-
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(android.R.id.title), withText("Room A"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatTextView.perform(click());
-
-        ViewInteraction textInputEditText = onView(
-                allOf(withId(R.id.subject_text2),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.subject_text),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textInputEditText.perform(replaceText("Exa"), closeSoftKeyboard());
-
-        ViewInteraction textInputEditText2 = onView(
-                allOf(withId(R.id.mail_entered),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        6),
-                                1),
-                        isDisplayed()));
-        textInputEditText2.perform(replaceText("@."), closeSoftKeyboard());
-
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withId(R.id.add_mail_button), withContentDescription("TODO"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        6),
-                                0),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
-
-        ViewInteraction appCompatButton8 = onView(
-                allOf(withId(R.id.add_button), withText("ADD"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.add_meeting_activity),
-                                        1),
-                                0),
-                        isDisplayed()));
-        appCompatButton8.perform(click());
-
-        ViewInteraction floatingActionButton2 = onView(
-                allOf(withId(R.id.fab),
-                        childAtPosition(
-                                allOf(withId(R.id.main_activity),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        floatingActionButton2.perform(click());
-
-        ViewInteraction appCompatButton9 = onView(
-                allOf(withId(R.id.date_button), withText("MEETING DAY"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.add_meeting_activity),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatButton9.perform(click());
-
-        ViewInteraction appCompatButton10 = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                3)));
-        appCompatButton10.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton11 = onView(
-                allOf(withId(R.id.time_button), withText("FROM"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                0),
-                        isDisplayed()));
-        appCompatButton11.perform(click());
-
-        ViewInteraction appCompatButton12 = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                3)));
-        appCompatButton12.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton13 = onView(
-                allOf(withId(R.id.time_button2), withText("TO"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                1),
-                        isDisplayed()));
-        appCompatButton13.perform(click());
-
-        ViewInteraction appCompatButton14 = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                3)));
-        appCompatButton14.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton15 = onView(
-                allOf(withId(R.id.assembly_room), withText("ASSEMBLY ROOM"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.add_meeting_activity),
-                                        0),
-                                3),
-                        isDisplayed()));
-        appCompatButton15.perform(click());
-
-        ViewInteraction appCompatTextView2 = onView(
-                allOf(withId(android.R.id.title), withText("Room A"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatTextView2.perform(click());
-
-        ViewInteraction textInputEditText3 = onView(
-                allOf(withId(R.id.subject_text2),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.subject_text),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textInputEditText3.perform(replaceText("Exa"), closeSoftKeyboard());
-
-        ViewInteraction textInputEditText4 = onView(
-                allOf(withId(R.id.mail_entered),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        6),
-                                1),
-                        isDisplayed()));
-        textInputEditText4.perform(replaceText("@."), closeSoftKeyboard());
-
-        ViewInteraction appCompatImageButton2 = onView(
-                allOf(withId(R.id.add_mail_button), withContentDescription("TODO"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        6),
-                                0),
-                        isDisplayed()));
-        appCompatImageButton2.perform(click());
-
-        ViewInteraction appCompatButton16 = onView(
-                allOf(withId(R.id.add_button), withText("ADD"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.add_meeting_activity),
-                                        1),
-                                0),
-                        isDisplayed()));
-        appCompatButton16.perform(click());
-    }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+    public void addRandomMeeting2() {
+        // DATE
+        onView(withId(R.id.fab)).perform(click());
+        onView(withId(R.id.date_button)).perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 05, 20));
+        onView(withId(android.R.id.button1)).perform(click());
+        // TIME
+        onView(withId(R.id.time_button)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(9, 30));
+        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.time_button2)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(13, 30));
+        onView(withId(android.R.id.button1)).perform(click());
+        // ROOM
+        onView(withId(R.id.assembly_room)).perform(click());
+        onView(withText("Room G")).perform(click());
+        // SUBJECT
+        onView(allOf(withClassName(endsWith("TextInputEditText")), withHint(is("Meeting Subject")))).perform(replaceText("Approvisionnement"));
+        onView(allOf(withClassName(endsWith("EditText")), withHint(is("Enter participant email")))).perform(replaceText("worthyamv@gmail.com"));
+        onView(withId(R.id.add_mail_button)).perform(click());
+        onView(withId(R.id.add_button)).perform(click());
     }
 }
