@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gestionreunion.API.MeetingApiService;
 import com.example.gestionreunion.API.MeetingListManagement;
 import com.example.gestionreunion.DI.Injector;
 import com.example.gestionreunion.Fragment.DeleteDialogFragment;
@@ -34,10 +35,11 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.reunionV
     public Activity mContext;
     DeleteDialogFragment mDialog;
     public int thePosition;
+    MeetingApiService mApiService = new MeetingApiService();
 
     @Override
     public void deleteMeeting(Meeting meeting) {
-        theList.remove(meeting);
+        mApiService.deleteMeeting(meeting, theList);
         notifyDataSetChanged();
     }
 

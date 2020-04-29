@@ -20,7 +20,7 @@ public class MeetingApiService implements MeetingListManagement {
     }
 
     @Override
-    public void deleteMeeting(Meeting meeting) {
+    public void deleteMeeting(Meeting meeting, List<Meeting> theList) {
         theList.remove(meeting);
     }
 

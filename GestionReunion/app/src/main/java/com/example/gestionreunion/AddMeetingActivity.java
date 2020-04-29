@@ -297,6 +297,3 @@ public class AddMeetingActivity extends AppCompatActivity implements TimePickerD
     }
 }
 
-/*(finalChosenMeetingMinutesBegin > finalMeetingMinutesBegin && finalChosenMeetingMinutesBegin < finalMeetingMinutesEnd)
-        || (finalChosenMeetingMinutesEnd > finalMeetingMinutesBegin && finalChosenMeetingMinutesEnd < finalMeetingMinutesEnd)
-        || (finalChosenMeetingMinutesBegin < finalMeetingMinutesBegin && finalChosenMeetingMinutesEnd > finalMeetingMinutesEnd)*/

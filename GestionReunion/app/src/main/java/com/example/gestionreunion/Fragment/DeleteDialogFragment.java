@@ -19,7 +19,6 @@ import java.util.List;
 
 public class DeleteDialogFragment extends AppCompatDialogFragment {
 
-    MeetingListManagement mApiService;
     public deleteMeetingInterface ourInterface;
     public Meeting ourMeeting;
 
@@ -45,7 +44,7 @@ public class DeleteDialogFragment extends AppCompatDialogFragment {
     }
 
     public interface deleteMeetingInterface{
-        void deleteMeeting(Meeting meeting);
+        void deleteMeeting(Meeting meetingn);
     }
 
     public static DeleteDialogFragment newInstance() {

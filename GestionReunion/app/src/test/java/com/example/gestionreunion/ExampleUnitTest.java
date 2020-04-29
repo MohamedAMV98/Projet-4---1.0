@@ -40,6 +40,7 @@ public class ExampleUnitTest {
     @Before
     public void setUp() {
         mApiService = Injector.getApiService();
+        aList = mApiService.getMeetingList();
     }
 
     @Test
@@ -56,13 +57,13 @@ public class ExampleUnitTest {
         mApiService.addMeeting(mMeeting);
         assertTrue(mApiService.getMeetingList().contains(mMeeting));
         // Delete the meeting to bring back initial list
-        mApiService.deleteMeeting(mMeeting);
+        mApiService.deleteMeeting(mMeeting, aList);
     }
 
     @Test
     public void delete_meeting_from_list() {
         Meeting meeting = mApiService.getMeetingList().get(0);
-        mApiService.deleteMeeting(meeting);
+        mApiService.deleteMeeting(meeting, aList);
         assertFalse(mApiService.getMeetingList().contains(meeting));
     }
 

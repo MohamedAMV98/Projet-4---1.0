@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     @BindView(R.id.fab)
     FloatingActionButton mFab;
-    String TAG = "the tag";
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     MeetingListManagement mApiService;
@@ -61,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         // INIT LIST
-
         mApiService = Injector.getApiService();
         mList = mApiService.getMeetingList();
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(!(item.getTitle().toString().contains("Assembly Room") || item.getTitle().toString().contains("Assembly Date")))
-            filterRoom(item.getTitle().toString().toLowerCase());
+            initList(mApiService.filterByRoom(item.getTitle().toString().toLowerCase()));
         switch (item.getItemId()) {
             case R.id.item_date:
                 DialogFragment datePicker = new DatePickerFragment();
@@ -126,26 +124,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         c.set(Calendar.MONTH, month);
         c.set(Calendar.YEAR, year);
         searchDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        filterDate(searchDate);
-    }
-
-    public void filterDate(String date){
-        filteredDateList.clear();
-        for (Meeting meeting : mList){
-            if(meeting.getDate().toLowerCase().contains(date.toLowerCase())) {
-                filteredDateList.add(meeting);
-            }
-        }
-        initList(filteredDateList);
-    }
-
-    public void filterRoom(String room){
-        filteredRoomList.clear();
-        for(Meeting meeting : mList){
-            if (meeting.getPlace().toLowerCase().contains(room.toLowerCase())){
-                filteredRoomList.add(meeting);
-            }
-        }
-        initList(filteredRoomList);
+        initList(mApiService.filterByDate(searchDate));
     }
 }

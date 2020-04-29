@@ -136,8 +136,6 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void deleteMeetingWorks() {
-        //onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        /*onView(withId(R.id.delete_button)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));*/
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.delete_button),
                         childAtPosition(
@@ -162,7 +160,6 @@ public class ExampleInstrumentedTest {
     @Test
     public void C_filterByDateAndRoom() {
         // BY DATE
-        //addRandomMeeting();
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Assembly Date")).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 5, 20));
@@ -170,8 +167,6 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.recycler_view)).check(matches(hasMinimumChildCount(1)));
 
         // BY ROOM
-        /*openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-        onView(withText("No Filter")).perform(click());*/
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Assembly Room")).perform(click());
         onView(withText("Room A")).perform(click());
@@ -180,7 +175,7 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void ResetFilter() {
+    public void D_ResetFilter() {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Assembly Room")).perform(click());
         onView(withText("Room A")).perform(click());
